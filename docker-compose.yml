@@ -1,0 +1,50 @@
+version: '3.1'
+
+services:
+
+  db:
+    container_name: db
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432    
+    environment:
+      POSTGRES_PASSWORD: upt.2023
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9090:8080
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: upt
+      MONGO_INITDB_ROOT_PASSWORD: upt.2023
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: upt
+      ME_CONFIG_MONGODB_ADMINPASSWORD: upt.2023
+      ME_CONFIG_MONGODB_URL: mongodb://upt:upt.2023@mongo:27017/
+
+  api:
+    container_name: api
+    build: .
+    ports:
+      - '9191:3000'
+    environment:
+      - DBHOST=db
+      - MONGOURL=mongodb://upt:upt.2023@mongo/logdb?authSource=admin
+    depends_on:
+      - db
+      - mongo
