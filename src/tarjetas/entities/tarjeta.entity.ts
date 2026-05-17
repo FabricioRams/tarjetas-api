@@ -1,20 +1,21 @@
-// Use the core package where decorators are exported for newer MikroORM versions
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/decorators/legacy';
 
 @Entity()
 export class Tarjeta {
-  @PrimaryKey()
+ 
+  @PrimaryKey({ autoincrement: true, type: 'number' })
   id!: number;
 
-  @Property()
+ 
+  @Property({ type: 'string' })
   titular!: string;
 
-  @Property()
+  @Property({ type: 'string' })
   numero!: string;
 
-  @Property()
+  @Property({ type: 'string' })
   expiracion!: string;
 
-  @Property()
+  @Property({ type: 'string' })
   cvv!: string;
 }
